@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ИИ ДЛЯ УЧЕБЫ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Генератор заданий для ЕГЭ</h1>
+        <div class="form-group">
+            <input type="text" id="subject" placeholder="Введите предмет (например, математика)">
+            <button onclick="getTask()">Получить задание</button>
+        </div>
+        <div id="result">
+            <p><strong>Задание:</strong> <span id="task-text"></span></p>
+            <p><strong>Ответ:</strong> <span id="answer-text"></span></p>
+        </div>
+    </div>
+
+    <script>
+        async function getTask() {
+            const subject = document.getElementById('subject').value;
+            const response = await fetch(`/get_task?subject=${encodeURIComponent(subject)}`);
+            const data = await response.json();
+
+            document.getElementById('task-text').textContent = data.task;
+            document.getElementById('answer-text').textContent = data.answer;
+        }
+    </script>
+</body>
+</html>
